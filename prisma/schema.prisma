@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String?  @unique
+  createdAt DateTime @default(now())
+  subs      Subscription[]
+}
+
+model Subscription {
+  id            String   @id @default(uuid())
+  userId        String
+  name          String
+  price         Decimal  @db.Decimal(10,2)
+  currency      String   @default("KRW")
+  billingCycle  String   // monthly|yearly|weekly|custom
+  intervalCount Int      @default(1)
+  nextBillingAt DateTime
+  paymentMethod String?
+  category      String?
+  memo          String?
+  isPaused      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, nextBillingAt])
+  @@index([userId, category])
+}
