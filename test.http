@@ -1,0 +1,113 @@
+### Subscription Manager API Tests
+### VS Code REST Client를 사용하여 테스트
+### 설치: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+@baseUrl = http://localhost:4000
+@contentType = application/json
+
+### 1. 구독 목록 조회 (빈 목록)
+GET {{baseUrl}}/subscriptions
+
+### 2. 새 구독 생성 - Netflix
+POST {{baseUrl}}/subscriptions
+Content-Type: {{contentType}}
+
+{
+  "name": "Netflix",
+  "price": 13500,
+  "currency": "KRW",
+  "billingCycle": "monthly",
+  "nextBillingAt": "2025-12-16T00:00:00Z",
+  "paymentMethod": "credit_card",
+  "category": "Entertainment",
+  "memo": "Standard plan"
+}
+
+### 3. 새 구독 생성 - Spotify
+POST {{baseUrl}}/subscriptions
+Content-Type: {{contentType}}
+
+{
+  "name": "Spotify Premium",
+  "price": 10900,
+  "currency": "KRW",
+  "billingCycle": "monthly",
+  "nextBillingAt": "2025-12-01T00:00:00Z",
+  "paymentMethod": "credit_card",
+  "category": "Entertainment"
+}
+
+### 4. 새 구독 생성 - GitHub Pro
+POST {{baseUrl}}/subscriptions
+Content-Type: {{contentType}}
+
+{
+  "name": "GitHub Pro",
+  "price": 4,
+  "currency": "USD",
+  "billingCycle": "monthly",
+  "nextBillingAt": "2025-12-20T00:00:00Z",
+  "paymentMethod": "credit_card",
+  "category": "Development"
+}
+
+### 5. 구독 목록 조회 (생성된 구독들)
+GET {{baseUrl}}/subscriptions
+
+### 6. 구독 목록 조회 - 필터링 (Entertainment 카테고리)
+GET {{baseUrl}}/subscriptions?category=Entertainment
+
+### 7. 구독 목록 조회 - 정렬 (내림차순)
+GET {{baseUrl}}/subscriptions?order=desc
+
+### 8. 구독 목록 조회 - 페이지네이션
+GET {{baseUrl}}/subscriptions?limit=2&offset=0
+
+### 9. 구독 목록 조회 - 날짜 필터 (12월 한 달)
+GET {{baseUrl}}/subscriptions?from=2025-12-01T00:00:00Z&to=2025-12-31T23:59:59Z
+
+### 10. 특정 구독 조회 (ID를 위 응답에서 복사해서 사용)
+# @name getSubscription
+GET {{baseUrl}}/subscriptions/SUBSCRIPTION_ID_HERE
+
+### 11. 구독 수정 (가격 변경)
+PATCH {{baseUrl}}/subscriptions/SUBSCRIPTION_ID_HERE
+Content-Type: {{contentType}}
+
+{
+  "price": 14900,
+  "memo": "Price increased"
+}
+
+### 12. 구독 일시정지
+PATCH {{baseUrl}}/subscriptions/SUBSCRIPTION_ID_HERE
+Content-Type: {{contentType}}
+
+{
+  "isPaused": true
+}
+
+### 13. 구독 삭제
+DELETE {{baseUrl}}/subscriptions/SUBSCRIPTION_ID_HERE
+
+### 14. 잘못된 데이터로 생성 시도 (Zod 검증 에러 테스트)
+POST {{baseUrl}}/subscriptions
+Content-Type: {{contentType}}
+
+{
+  "name": "",
+  "price": -100,
+  "billingCycle": "invalid_cycle"
+}
+
+### 15. 존재하지 않는 구독 조회 (404 에러 테스트)
+GET {{baseUrl}}/subscriptions/non-existent-id
+
+### 16. 일시정지된 구독만 조회
+GET {{baseUrl}}/subscriptions?isPaused=true
+
+### 17. 활성 구독만 조회
+GET {{baseUrl}}/subscriptions?isPaused=false
+
+
+

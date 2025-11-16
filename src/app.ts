@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import pinoHttpImport from 'pino-http';
 
-import health from './routes/health.js';
+import subscriptions from './routes/subscription.js';
 import { errorHandler } from './middlewares/errors.js';
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 // @ts-expect-error - pino-http has ESM/CommonJS interop issues
 app.use(pinoHttpImport());
 
-app.use('/health', health);
+app.use('/subscriptions', subscriptions);
 app.use(errorHandler);
 
 const port = Number(process.env.PORT ?? 4000);
