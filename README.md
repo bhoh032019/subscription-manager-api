@@ -82,7 +82,6 @@ http://localhost:4000/health
 
 | Method | Endpoint             | Description    |
 | ------ | -------------------- | -------------- |
-| GET    | `/health`            | 헬스 체크      |
 | GET    | `/subscriptions`     | 구독 목록 조회 |
 | GET    | `/subscriptions/:id` | 특정 구독 조회 |
 | POST   | `/subscriptions`     | 새 구독 생성   |
@@ -183,7 +182,6 @@ subscription-manager-api/
 │   ├── lib/
 │   │   └── prisma.ts             # Prisma 클라이언트 (싱글톤)
 │   ├── routes/
-│   │   ├── health.ts             # 헬스 체크
 │   │   └── subscription.ts       # 구독 API 라우트
 │   ├── schemas/
 │   │   └── subscription.ts       # Zod 검증 스키마
@@ -313,14 +311,8 @@ npm run db:push
 - [Prisma 공식 문서](https://www.prisma.io/docs)
 - [Supabase 공식 문서](https://supabase.com/docs)
 
-## 📄 라이선스
-
-ISC
-
 ## 👤 Author
 
 [@bhoh032019](https://github.com/bhoh032019)
 
----
 
-**⭐ 이 프로젝트가 도움이 되었다면 스타를 눌러주세요!**
