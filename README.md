@@ -311,8 +311,5 @@ npm run db:push
 - [Prisma 공식 문서](https://www.prisma.io/docs)
 - [Supabase 공식 문서](https://supabase.com/docs)
 
-## 👤 Author
-
-[@bhoh032019](https://github.com/bhoh032019)
 
 
